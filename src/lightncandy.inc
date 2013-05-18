@@ -217,7 +217,12 @@ class LightnCandy {
      * @return mixed result of include()
      */
     public static function prepare($php) {
-        return include('data://text/plain,' . urlencode($php));
+		$tmpfname = tempnam("/tmp", "tmplt");
+		$handle = fopen($tmpfname, "w");
+		fwrite($handle, $php);
+		fclose($handle);
+		$funct = include $tmpfname;
+        return $funct;
     }
 
     /**
